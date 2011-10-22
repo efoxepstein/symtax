@@ -11,12 +11,15 @@ class Node
   end
 
 	def orchestrate(delay, conductor, opts = {})
+	  puts "Orchestrating #{self.class.name}, delay #{delay}"
 	  orchestrate_self(delay, conductor, opts)
         
     delay = self.class.duration_impact
     for child in children
-      child.orchestrate(delay, conductor)
-      delay += child.duration
+      if Node === child
+        child.orchestrate(delay, conductor)
+        delay += child.duration
+      end
     end
 	end
 

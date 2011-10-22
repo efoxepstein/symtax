@@ -24,11 +24,15 @@ class Conductor
   def commit 
     elapsed = 0
     for (start, name, opts) in @q.sort_by(&:first)
+      puts "Synthing #{name} @ #{start}"
+      
       sleep(start - elapsed)
       elapsed = start
+      
+      Synth.new(name)
       # TODO: deal with note, duration pairs
       #       deal with rests
-      Synth.new(name, opts)
+      #Synth.new(name, opts)
     end
   end
   
