@@ -9,13 +9,13 @@
 	\cf2 var\cf0  oscs = \cf2 SinOsc\cf0 .ar(freq, gate);\
 	\
 	\
-	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(oscs * \cf2 EnvGate\cf0 .new(gate: gate)));\
+	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(oscs * \cf4 EnvGen\cf0 .kr(\cf4 Env\cf0 .linen(0.3, 0.7, 0.3), timeScale: dur, doneAction: 2)));\
 \}).store;\
 );\
 \
 (\
 \cf2 SynthDef\cf0 (\cf3 \\sinmix\cf0 , \{\cf2 |out=0, freq=440, gate=1, dur=1, amp=1|\cf0 \
-	\cf2 var\cf0  son = \cf2 SinOsc\cf0 .ar(freq, gate, \cf2 SinOsc\cf0 .ar(freq/2, gate)) * \cf4 EnvGen\cf0 .kr(\cf4 Env\cf0 .linen(0.01, 0.7, 0.25), timeScale: 0.25, doneAction: 2);\
+	\cf2 var\cf0  son = \cf2 SinOsc\cf0 .ar(freq, gate, \cf2 SinOsc\cf0 .ar(freq/2, gate)) * \cf4 EnvGen\cf0 .kr(\cf4 Env\cf0 .linen(0.01, 0.7, 0.025), timeScale: dur, doneAction: 2);\
 	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(son *1));\
 \}).store;\
 );\
@@ -30,7 +30,7 @@
 (\
 \cf2 SynthDef\cf0 (\cf3 \\sawsaw\cf0 , \{\cf2 |out=0, freq=440, gate=1, dur=1, amp=1|\cf0 \
 	\cf2 var\cf0  saw = \cf2 Mix\cf0 .ar([\cf2 VarSaw\cf0 .ar(freq), \cf2 VarSaw\cf0 .ar(freq/2)]);\
-	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(saw * \cf2 EnvGen.kr(Env.linen(0.01, 0.7, 0.25), timeScale: dur, doneAction: 2)\cf0 ));\
+	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(saw * \cf2 EnvGen.kr(Env.linen(0.1, 0.7, 0.1), timeScale: dur, doneAction: 2)\cf0 ));\
 \}).store;\
 );\
 \
@@ -44,7 +44,7 @@
 	\cf2 var\cf0  mix = \cf2 Mix\cf0 .ar(oscs);\
 	\
 	\
-	\cf2 Out\cf0 .ar(out, mix * \cf2 EnvGen.kr(Env.linen(0.01, 0.7, 0.25), timeScale: dur, doneAction: 2)\cf0 );\
+	\cf2 Out\cf0 .ar(out, mix * \cf2 EnvGen.kr(Env.linen(0.01, 0.7, 0.05), timeScale: dur, doneAction: 2)\cf0 );\
 \}).store;\
 );\
 \
@@ -76,9 +76,9 @@
          \cf2 LocalOut\cf0 .ar(\cf2 DelayC\cf0 .ar(sig, deltimes, deltimes));\
 \
 			\
-		env = \cf2 EnvGen\cf0 .kr(\cf2 Env\cf0 .perc(0.05, 0.5, 1.0), gate, doneAction: 2);\
+		env = \cf2 EnvGen\cf0 .kr(\cf2 Env\cf0 .perc(0.01, 0.75, 1.0), gate, timeScale: dur, doneAction: 2);\
 				\
-		\cf2 Out\cf0 .ar(out, output * env);\
+		\cf2 Out\cf0 .ar(out, output * env * amp);\
 	\}).send(s);\
 )\
 \
