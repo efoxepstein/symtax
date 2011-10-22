@@ -141,76 +141,77 @@ end
 value_only ArgumentsNode do |delay, conductor, opts|
 end
 
-value_only CaseBlock do |delay, conductor, opts|
+value_only CaseBlockNode do |delay, conductor, opts|
 end
   
-value_only ConstStatement do |delay, conductor, opts|
+value_only ConstStatementNode do |delay, conductor, opts|
 end
 
-value_only ObjectLiteral do |delay, conductor, opts|
+value_only ObjectLiteralNode do |delay, conductor, opts|
 end
   
 value_only SourceElementsNode do |delay, conductor, opts| 
 end
 
-value_only VarStatement do |delay, conductor, opts|
+value_only VarStatementNode do |delay, conductor, opts|
 end
 
-binary BitAnd, BitOr, BitXOr, LogicalAnd, LogicalOr do |delay, conductor, opts|
+binary BitAndNode, BitOrNode, BitXOrNode, LogicalAndNode, LogicalOrNode do |delay, conductor, opts|
   
 end
 
-binary CaseClause do |delay, conductor, opts|
+binary CaseClauseNode do |delay, conductor, opts|
 end
 
-binary Switch do |delay, conductor, opts|
+binary SwitchNode do |delay, conductor, opts|
 end
 
-binary Divide, Modulus, Add, Multiply, Subtract do |delay, conductor, opts|
+binary DivideNode, ModulusNode, AddNode, MultiplyNode, SubtractNode do |delay, conductor, opts|
 end
 
-binary do |delay, conductor, opts|While do |delay, conductor, opts|
+binary DoWhileNode do |delay, conductor, opts|
 end
 
-binary Equal, Greater, GreaterOrEqual, Less, LessOrEqual,
-           NotEqual, NotStrictEqual, StrictEqual do |delay, conductor, opts|
+binary EqualNode, GreaterNode, GreaterOrEqualNode, LessNode, LessOrEqualNode,
+           NotEqualNode, NotStrictEqualNode, StrictEqualNode do |delay, conductor, opts|
              
 end
 
-binary In do |delay, conductor, opts|
+binary InNode do |delay, conductor, opts|
   
 end
 
 
-binary InstanceOf do |delay, conductor, opts|
+binary InstanceOfNode do |delay, conductor, opts|
 end
 
-binary LeftShift, RightShift, UnsignedRightShift do |delay, conductor, opts|
+binary LeftShiftNode, RightShiftNode, UnsignedRightShiftNode do |delay, conductor, opts|
 end
 
-binary While, With do |delay, conductor, opts|
+binary WhileNode, WithNode do |delay, conductor, opts|
 end
 
 
-binary :@name, Label do |delay, conductor, opts|
+binary :@name, LabelNode do |delay, conductor, opts|
 end
   
-binary :@name, Property do |delay, conductor, opts|
+binary :@name, PropertyNode do |delay, conductor, opts|
 end
 
-binary :@name, VarDecl do |delay, conductor, opts|
+binary :@name, VarDeclNode do |delay, conductor, opts|
 end
 
-binary :@name, Postfix do |delay, conductor, opts|
+binary :@name, PostfixNode do |delay, conductor, opts|
+end
   
-binary :@name, Prefix do |delay, conductor, opts|
+binary :@name, PrefixNode do |delay, conductor, opts|
 end
 
-binary :@name, If, Conditional do |delay, conductor, opts|
+binary :@name, IfNode, ConditionalNode do |delay, conductor, opts|
   # remember, @else could be nil... if @else.nil?
 end
 
-class FunctionCall
+class FunctionCallNode
   extend Useful
   
   def children
@@ -222,7 +223,7 @@ class FunctionCall
   end
 end
 
-class FunctionCall
+class FunctionDeclNode
   extend Useful
   
   def children

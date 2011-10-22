@@ -6,6 +6,7 @@ class Conductor
   
   def initialize(max_height)
     @q = []
+    @max_height = max_height
   end
   
   def enqueue(name, notes, octave, root, total_duration, height)
@@ -25,6 +26,8 @@ class Conductor
     for (start, name, opts) in @q.sort_by(&:first)
       sleep(start - elapsed)
       elapsed = start
+      # TODO: deal with note, duration pairs
+      #       deal with rests
       Synth.new(name, opts)
     end
   end

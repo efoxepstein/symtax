@@ -2,48 +2,45 @@ require 'net/http'
 require 'uri'
 require 'nokogiri'
 require 'open-uri'
-# This is the file where javascript will be stored locally on our machine.
-$outputFileName = "symtax.js"
+require 'fssm'
+require 'rkelly'
 
-class HttpTest
-	def downloadWebPage(weburl)
-		#http_response = Net::HTTP.get_response(URI.parse(weburl))
-		
-		outfile = File.new($outputFileName.to_s,"w")
-		# Use Nokogiri library to write javascript into
-		# our file
-		# For now, we create a document, and just look for the script tags...
-		doc = Nokogiri::HTML(open(weburl))
-		doc.css('script').each do |script|
-			outfile << script.content #http_response.body #if we use http_response.body we get everything!
-			puts 
-		end
-		
-		outfile.close() # Close our file because we're done
-	end
+require './hax'
+require './conductor'
+require './nodes'
+
+def watch(filename)
+  FSSM.monitor(File.dirname(ARGV[0]),File.basename(ARGV[0])) do
+  	update do |b,r|
+  		File.open(File.join(b, r)) do |f|
+  		  play f.read
+		  end
+  	end
+  end
 end
 
-if ARGV[0].match(/^http/) 
-	# Load up a http page here
-	puts "is an http url"
-	test = HttpTest.new # Create a new instance of our class
-						# to load our webpage in.
-	test.downloadWebPage(ARGV[0].to_s)	
-elsif ARGV[0].match(/^www/)	
-	# Same code as above, but appends a http:// to the file
-	# This saves us an error message...
-	puts "is a www url"
-	test = HttpTest.new
-	test.downloadWebPage("http://"+ARGV[0].to_s)
+@parser = RKelly::Parser.new
+def play(js)
+  ast = @parser.parse js
+  conductor = Conductor.new(ast.height)
+  ast.orchestrate(0, conductor, {})
+end
+
+
+if ARGV[0].start_with? 'http'
+  doc = Nokogiri::HTML(open(ARGV[0]))
+  js = ""
+	doc.css('script').each do |script|
+		js << script.content
+	end
+
+  play js
+  
 else # Load a local file and save it into our symtax.js
 	 # since we are confident that our users are loading javascript
-	 # we do not pass it through nokogiri in our webpage class.
-		inputFile = File.new(ARGV[0].to_s,"r")
-			outfile = File.new($outputFileName.to_s,"w")
-				inputFile.each{|i|
-								outfile.write i
-				}
-			outfile.close()
-		inputFile.close()
+	 # we do not pass it through nokogiri
+	watch ARGV[0]
 end
+
+
 
