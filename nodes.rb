@@ -163,30 +163,18 @@ end
 value_only ArgumentsNode do |delay, conductor, opts|
   conductor.enqueue(:sawsaw, [[12, 0.25], [9, 0.25], [7, 0.25], [5, 0.25], [4, 0.25], [2, 0.25], [0, 0.25], [2, 0.25], [4, 0.25], [5, 0.25], [7, 0.25], [9, 0.25], [12, 1]], 4, 4, 4, delay, height)
 end
-
-value_only CaseBlockNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[nil, 1.5], [5, 0.25], [7, 0.25], [0, 2]], 4, 4, 4, delay, height)
-end
   
-value_only ConstStatementNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[nil, 1], [0, 1], [0, 1], [nil, 1]], 4, 4, 4, delay, height)
-end
 
 value_only ObjectLiteralNode do |delay, conductor, opts|
   conductor.enqueue(:sawsaw, [[0, 0.75], [5, 0.25], [2, 0.75], [7, 0.25], [4, 0.75], [9, 0.25], [5, 0.75], [12, 0.25]], 4, 4, 4, delay, height)
 end
   
 value_only SourceElementsNode do |delay, conductor, opts| 
-  conductor.enqueue(:sawsaw, [[12, 1], [9, 1], [4, 1], [4, 1]], 2, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[0, 1], [7, 1], [12, 1], [4, 1]], 2, 4, 4, delay, height)
 end
 
 value_only VarStatementNode do |delay, conductor, opts|
   conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
-end
-
-binary BitAndNode, BitOrNode, BitXOrNode, LogicalAndNode, LogicalOrNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
-  
 end
 
 binary CaseClauseNode do |delay, conductor, opts|
@@ -197,18 +185,8 @@ binary SwitchNode do |delay, conductor, opts|
   conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
 end
 
-binary DivideNode, ModulusNode, AddNode, MultiplyNode, SubtractNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
-end
-
 binary DoWhileNode do |delay, conductor, opts|
   conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
-end
-
-binary EqualNode, GreaterNode, GreaterOrEqualNode, LessNode, LessOrEqualNode,
-           NotEqualNode, NotStrictEqualNode, StrictEqualNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
-             
 end
 
 binary InNode do |delay, conductor, opts|
@@ -218,10 +196,6 @@ end
 
 
 binary InstanceOfNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
-end
-
-binary LeftShiftNode, RightShiftNode, UnsignedRightShiftNode do |delay, conductor, opts|
   conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
 end
 
