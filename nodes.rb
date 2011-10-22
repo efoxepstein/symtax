@@ -105,7 +105,7 @@ value_only TypeOfNode do |delay, conductor, opts|
 end
 
 value_only NumberNode do |delay, conductor, opts|
-  conductor.enqueue(:piano2, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:piano2, [[0, 0.5], [0, 0.5], [4, 0.5], [4, 0.5], [5, 1], [7, 0.5], [9, 0.5]], 4, 4, 4, delay, height)
 end
 
 value_only LogicalNotNode do |delay, conductor, opts|
@@ -121,35 +121,35 @@ value_only UnaryMinusNode do |delay, conductor, opts|
 end
 
 value_only ElementNode do |delay, conductor, opts|
-  conductor.enqueue(:syn, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sinmix, [[2, 0.25], [nil, 0.25], [4, 0.25], [nil, 0.25], [nil, 0.25], [7, 0.25], [9, 0.5], [12, 1]], 4, 4, 4, delay, height)
 end
 
 value_only BitwiseNotNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [2, 1], [0, 1]], 4, 4, 4, delay, height)
 end
 
 value_only NullNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[9, 1], [7, 1], [2, 1], [0, 1]], 4, 4, 4, delay, height)
 end
 
 value_only StringNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:guitar, [[9, 0.5], [nil, 0.5] [5, 0.5], [nil, 0.5], [12, 1], [nil, 1]], 4, 4, 4, delay, height)
 end
 
 value_only ThisNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[0, 0.25], [4, 0.25], [7, 0.25], [9, 0.25], [12, 0.25], [7,0.25], [5, 0.25], [4, 0.25], [4, 1], [7, 1]], 4, 4, 4, delay, height)
 end
 
 value_only ArrayNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[7, 1], [5, 1], [4, 1], [2, 1]], 4, 4, 4, delay, height)
 end
 
 value_only ContinueNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[7, 0.5], [nil, 0,5] [7, 1], [nil, 1], [nil, 1]], 4, 4, 4, delay, height)
 end
 
 value_only BreakNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[0, 0.5], [0, 0.5], [0, 0.5], [0, 0.5], [7, 0.5], [7, 0.5], [7, 0.5], [7, 0.5]], 4, 4, 4, delay, height)
 end
 
 value_only ParameterNode do |delay, conductor, opts|
@@ -157,23 +157,23 @@ value_only ParameterNode do |delay, conductor, opts|
 end
 
 value_only RegexpNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[0, 2], [nil, 1], [9, 0.5], [12, 0.5]], 4, 4, 4, delay, height)
 end
 
 value_only ArgumentsNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[12, 0.25], [9, 0.25], [7, 0.25], [5, 0.25], [4, 0.25], [2, 0.25], [0, 0.25], [2, 0.25], [4, 0.25], [5, 0.25], [7, 0.25], [9, 0.25], [12, 1]], 4, 4, 4, delay, height)
 end
 
 value_only CaseBlockNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[nil, 1.5], [5, 0.25], [7, 0.25], [0, 2]], 4, 4, 4, delay, height)
 end
   
 value_only ConstStatementNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[nil, 1], [0, 1], [0, 1], [nil, 1]], 4, 4, 4, delay, height)
 end
 
 value_only ObjectLiteralNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[0, 0.75], [5, 0.25], [2, 0.75], [7, 0.25], [4, 0.75], [9, 0.25], [5, 0.75], [12, 0.25]], 4, 4, 4, delay, height)
 end
   
 value_only SourceElementsNode do |delay, conductor, opts| 
@@ -226,20 +226,20 @@ binary LeftShiftNode, RightShiftNode, UnsignedRightShiftNode do |delay, conducto
 end
 
 binary WhileNode, WithNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[12, 1], [4, 0.5], [2, 0.5], [7, 1], [12, 1]], 4, 4, 4, delay, height)
 end
 
 
 binary :@name, LabelNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[0, 1], [0, 1], [0, 1], [0, 1]], 4, 4, 4, delay, height)
 end
   
 binary :@name, PropertyNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[7, 1], [7, 1], [7, 1], [2, 0.25], [4, 0.25], [5,0.25]], 4, 4, 4, delay, height)
 end
 
 binary :@name, VarDeclNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, 4, delay, height)
+  conductor.enqueue(:sawsaw, [[0, 0.5], [0, 0.5], [5, 0.25], [7, 0.25], [nil, 1], [12, 1]], 4, 4, 4, delay, height)
 end
 
 binary :@name, PostfixNode do |delay, conductor, opts|
