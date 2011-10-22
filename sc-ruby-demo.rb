@@ -1,4 +1,16 @@
 require 'scruby'
+require 'mtk'
+
+def freq(octave, root, offset)
+  440 * (2**(((12*octave + root + offset)-69)/12))
+end
+
+
+
+
+def note_to_freq
+  Pitch.from_
+end
 
 class Proc
 
@@ -24,6 +36,14 @@ end.send
 sleep 0.1
 
 
+
+
+
+
 Synth.new :fm, :freq => 220, :amp => 0.4, :dur => 1
 
 sleep 5
+
+instrument
+notes, durations
+
