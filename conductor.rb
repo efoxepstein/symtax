@@ -14,9 +14,11 @@ class Conductor
     elapsed = 0
     notes.cycle do |(offset, duration)|
       break if elapsed + duration > total_duration
-
-      @q << [elapsed+delay, name, {freq: freq(octave, root, offset), dur: duration}]
-        
+      
+      unless offset == nil
+        @q << [elapsed+delay, name, {freq: freq(octave, root, offset), dur: duration}]
+      end
+      
       elapsed += duration
     end
   end
