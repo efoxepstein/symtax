@@ -15,6 +15,7 @@ class Conductor
   end
   
   def enqueue(name, notes, octave, root, total_duration, delay, height)    
+    puts "enqueuing #{name}, #{delay}, #{height}, #{@max_height}"
     @fibers << Fiber.new do
       sleep_time = 0
       elapsed = 0
@@ -34,7 +35,6 @@ class Conductor
   end
   
   def commit 
-    
     elapsed = 0
     backlog = [1]
     until backlog.empty?
@@ -54,13 +54,15 @@ class Conductor
           for fiber in @fibers
             while fiber.alive?
               n = fiber.resume
-              backlog << n
-              break if n[0] > max
+              unless n.nil?
+                backlog << n
+                break if n[0] > max
+              end
             end
           end
       
           backlog.sort_by! {|x|x[0]}
-          puts backlog.inspect
+  
           for (start, name, opts) in backlog
             sleep(start - elapsed + 0.00001)
             elapsed = start
