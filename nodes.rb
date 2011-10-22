@@ -197,7 +197,7 @@ value_only ObjectLiteralNode do |delay, conductor, opts|
 end
   
 value_only SourceElementsNode do |delay, conductor, opts| 
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:sawsaw, [[12, 1], [9, 1], [4, 1], [4, 1]], 2, 4, duration, delay, height)
 end
 
 value_only VarStatementNode do |delay, conductor, opts|
