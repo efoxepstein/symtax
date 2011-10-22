@@ -5,7 +5,7 @@
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
 
 \f0\fs18 \cf0 (\
-\cf2 SynthDef\cf0 (\cf3 \\sinosc\cf0 , \{ \cf2 |out=0, freq=440, gate=1, dur=1|\cf0 \
+\cf2 SynthDef\cf0 (\cf3 \\sinosc\cf0 , \{ \cf2 |out=0, freq=440, gate=1, dur=1, amp=1|\cf0 \
 	\cf2 var\cf0  oscs = \cf2 SinOsc\cf0 .ar(freq, gate);\
 	\
 	\
@@ -14,28 +14,28 @@
 );\
 \
 (\
-\cf2 SynthDef\cf0 (\cf3 \\sinmix\cf0 , \{\cf2 |out=0, freq=440, gate=1, dur=1|\cf0 \
+\cf2 SynthDef\cf0 (\cf3 \\sinmix\cf0 , \{\cf2 |out=0, freq=440, gate=1, dur=1, amp=1|\cf0 \
 	\cf2 var\cf0  son = \cf2 SinOsc\cf0 .ar(freq, gate, \cf2 SinOsc\cf0 .ar(freq/2, gate)) * \cf4 EnvGen\cf0 .kr(\cf4 Env\cf0 .linen(0.01, 0.7, 0.25), timeScale: 0.25, doneAction: 2);\
 	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(son *1));\
 \}).store;\
 );\
 \
 (\
-\cf2 SynthDef\cf0 (\cf3 \\moog\cf0 , \{\cf2 |out=0, freq=440, gate=1, dur=1|\cf0 \
+\cf2 SynthDef\cf0 (\cf3 \\moog\cf0 , \{\cf2 |out=0, freq=440, gate=1, dur=1, amp=1|\cf0 \
 	\cf2 var\cf0  moog = \cf2 MoogFF\cf0 .ar(\cf2 Pulse\cf0 .ar([freq/2, freq*2],[0.5, 0.5]), freq, 2);\
 	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(moog * \cf2 EnvGen.kr(Env.linen(0.01, 0.7, 0.25), timeScale: dur, doneAction: 2)\cf0 ));\
 \}).store;\
 );\
 \
 (\
-\cf2 SynthDef\cf0 (\cf3 \\sawsaw\cf0 , \{\cf2 |out=0, freq=440, gate=1, dur=1|\cf0 \
+\cf2 SynthDef\cf0 (\cf3 \\sawsaw\cf0 , \{\cf2 |out=0, freq=440, gate=1, dur=1, amp=1|\cf0 \
 	\cf2 var\cf0  saw = \cf2 Mix\cf0 .ar([\cf2 VarSaw\cf0 .ar(freq), \cf2 VarSaw\cf0 .ar(freq/2)]);\
 	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(saw * \cf2 EnvGen.kr(Env.linen(0.01, 0.7, 0.25), timeScale: dur, doneAction: 2)\cf0 ));\
 \}).store;\
 );\
 \
 (\
-\cf2 SynthDef\cf0 (\cf3 \\piano2\cf0 , \{ \cf2 |out=0, freq=440, gate=1, dur=1|\cf0 \
+\cf2 SynthDef\cf0 (\cf3 \\piano2\cf0 , \{ \cf2 |out=0, freq=440, gate=1, dur=1, amp=1|\cf0 \
 	\cf2 var\cf0  oscs = [\cf2 Saw\cf0 .ar([freq, freq+3, freq+7], 0, 1),\
 			   \cf2 Pulse\cf0 .ar([freq, freq+3, freq+7]),\
 			   \cf2 MdaPiano\cf0 .ar(freq, gate, release: 0.59, stereo: 0.3, sustain: 0.25)\
@@ -50,7 +50,7 @@
 \
 \
 (\
-	\cf2 SynthDef\cf0 (\cf3 \\guitar\cf0 , \{\cf2 |out, gate=1, freq=440, dur=1|\cf0 \
+	\cf2 SynthDef\cf0 (\cf3 \\guitar\cf0 , \{\cf2 |out, gate=1, freq=440, dur=1, amp=1|\cf0 \
 		\cf2 var\cf0  oscs, env, input, output, sig, deltimes, delrd;\
 		oscs = [\
 			\cf2 Saw\cf0 .ar([freq, freq+3, freq+7], 0.7),\
