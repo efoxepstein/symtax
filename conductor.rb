@@ -4,11 +4,11 @@ class Conductor
     (12*octave + root + offset).freq
   end
   
-  def initialize
+  def initialize(max_height)
     @q = []
   end
   
-  def enqueue(name, notes, octave, root, total_duration)
+  def enqueue(name, notes, octave, root, total_duration, height)
       sleep_time = 0
       elapsed = 0
       notes.cycle do |(offset, duration)|
