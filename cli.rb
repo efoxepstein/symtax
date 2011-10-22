@@ -36,16 +36,23 @@ def play(js)
 end
 
 
-
-if ARGV[0].start_with? 'http'
-  doc = Nokogiri::HTML(open(ARGV[0]))
+if ARGV.size == 0
+  play STDIN.read
+elsif ARGV[0].start_with? 'http'
+  
   js = ""
-	doc.css('script').each do |script|
-		js << script.content
+  if ARGV[0].end_with? 'js'  
+	  js = open(ARGV[0]).read
+	else
+	  doc = Nokogiri::HTML(open(ARGV[0]))
+    js = ""
+  	doc.css('script').each do |script|
+  		js << script.content
+  	end
 	end
 
   play js
-  
+    
 else # Load a local file and save it into our symtax.js
 	 # since we are confident that our users are loading javascript
 	 # we do not pass it through nokogiri
