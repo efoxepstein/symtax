@@ -85,133 +85,174 @@ def binary(other = :@left, *klazzes, &blk)
 end
 
 value_only TrueNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [0, 1), (4, 1), (7, 1), (0, 1)], 4, 4, height)
 end
 
 value_only FalseNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (2, 1), (7, 1)], 4, 4, height)
 end
 
 value_only DeleteNode do |delay, conductor, opts| 
+  composer.enqueue(:sawsaw, [(2, 4)], 4, 4, height)
 end
 
 value_only ReturnNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (5, 1), (4, 1), (2, 0.5), (0, 1)], 4, 4, height)
 end
 
 value_only TypeOfNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(0, 0.5), (4, 0.5), (0, 0.5), (4, 0.5), (2, 0.5), (7, 0.5), (2, 0.5), (7,0.5)], 4, 4, height)
 end
 
 value_only NumberNode do |delay, conductor, opts|
+  composer.enqueue(:piano2, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only LogicalNotNode do |delay, conductor, opts|
+  composer.enqueue(:guitar, [(0, 1), (0, 1), (7, 1), (7, 1)], 4, 4, height)
 end
 
 value_only ThrowNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (2, 1), (4, 1)], 4, 4, height)
 end
 
 value_only UnaryMinusNode do |delay, conductor, opts|
+  composer.enqueue(:sinmix, [(nil, 0.5), (4, 0.5), (nil, 0.25), (5, 0.25), (7, 0.25), (9, 0.25), (nil, 1), (12, 1)], 4, 4, height)
 end
 
 value_only ElementNode do |delay, conductor, opts|
+  composer.enqueue(:syn, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only BitwiseNotNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only NullNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only StringNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only ThisNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only ArrayNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only ContinueNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only BreakNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only ParameterNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only RegexpNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only ArgumentsNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only CaseBlockNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
   
 value_only ConstStatementNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only ObjectLiteralNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
   
 value_only SourceElementsNode do |delay, conductor, opts| 
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 value_only VarStatementNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary BitAndNode, BitOrNode, BitXOrNode, LogicalAndNode, LogicalOrNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
   
 end
 
 binary CaseClauseNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary SwitchNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary DivideNode, ModulusNode, AddNode, MultiplyNode, SubtractNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary DoWhileNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary EqualNode, GreaterNode, GreaterOrEqualNode, LessNode, LessOrEqualNode,
            NotEqualNode, NotStrictEqualNode, StrictEqualNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
              
 end
 
 binary InNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
   
 end
 
 
 binary InstanceOfNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary LeftShiftNode, RightShiftNode, UnsignedRightShiftNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary WhileNode, WithNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 
 binary :@name, LabelNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
   
 binary :@name, PropertyNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary :@name, VarDeclNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary :@name, PostfixNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
   
 binary :@name, PrefixNode do |delay, conductor, opts|
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 binary :@name, IfNode, ConditionalNode do |delay, conductor, opts|
   # remember, @else could be nil... if @else.nil?
+  composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
 end
 
 class FunctionCallNode
@@ -222,6 +263,7 @@ class FunctionCallNode
   end
   
   def orchestrate_self(delay, conductor, opts)
+    composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
     
   end
 end
@@ -234,6 +276,7 @@ class FunctionDeclNode
   end
   
   def orchestrate_self(delay, conductor, opts)
+    composer.enqueue(:sawsaw, [(7, 1), (4, 1), (3, 1), (7, 1)], 4, 4, height)
     
   end
 end
