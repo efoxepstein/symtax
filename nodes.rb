@@ -156,9 +156,9 @@ value_only BreakNode do |delay, conductor, opts|
   conductor.enqueue(:sinmix, [[0, 0.5], [0, 0.5], [0, 0.5], [0, 0.5], [7, 0.5], [7, 0.5], [7, 0.5], [7, 0.5]], 4, 4, duration, delay, height)
 end
 
-value_only ParameterNode do |delay, conductor, opts|
-  conductor.enqueue(:piano2, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, duration, delay, height)
-end
+# value_only ParameterNode do |delay, conductor, opts|
+#   conductor.enqueue(:piano2, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, duration, delay, height)
+# end
 
 value_only ObjectLiteralNode do |delay, conductor, opts|
   conductor.enqueue(:sawsaw, [[0, 0.75], [5, 0.25], [2, 0.75], [7, 0.25], [4, 0.75], [9, 0.25], [5, 0.75], [12, 0.25]], 4, 4, duration, delay, height)
