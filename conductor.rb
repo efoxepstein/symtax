@@ -57,23 +57,26 @@ class Conductor
   def commit
     elapsed = 0
         
-    until @enumerators.empty?      
-      @enumerators.select! {|_, enum| not enum.finished? }
+    until @enumerators.reject! {|_, enum| enum.finished? }.empty?
       
+      # Find the next note to play
       next_enum = @enumerators.min_by do |_, enum|
         enum.peek[0]
       end
       
-      if next_enum.nil? # this really shouldn't happen!
+      # This shouldn't happen
+      if next_enum.nil?
         puts "DONE"
         break
       end
       
+      # Sleep until next note
       sleep next_enum[1].peek[0] - elapsed
       elapsed = next_enum[1].peek[0]
       
       puts "Time: #{elapsed}"
 
+      # Get all notes that play at this time
       notes = @enumerators.inject([]) do |ns, (_, e)|
         while !e.finished? and e.peek[0] == elapsed
           ns << e.next
@@ -81,53 +84,13 @@ class Conductor
         ns
       end
             
-           
+       
+      # Play em    
       for (start, name, opts) in notes
         puts "Synthing #{name}, #{opts.inspect}"
         Synth.new(name, opts)
       end
     end
   end
-  
-  # def commit 
-  #   elapsed = 0
-  #   backlog = [1]
-  #       
-  #   until backlog.empty?
-  #     backlog = []
-  #     puts "A"
-  #     @fibers.select! &:alive?
-  #     unless @fibers.empty?
-  #     
-  #       for fiber in @fibers
-  #         n = fiber.resume 
-  #         puts "fiber output: #{n.inspect}"
-  #         backlog << n unless n.nil?
-  #       end
-  #       puts "B"
-  #       unless backlog.empty?
-  #         max = backlog.max[0]
-  #     
-  #         for fiber in @fibers
-  #           while fiber.alive?
-  #             n = fiber.resume
-  #             unless n.nil?
-  #               backlog << n
-  #               break if n[0] > max
-  #             end
-  #           end
-  #         end
-  #         puts "C"
-  #         backlog.sort_by! {|x|x[0]}
-  #         for (start, name, opts) in backlog
-  #           sleep(start - elapsed + 0.00001)
-  #           elapsed = start
-  #           Synth.new(name, opts)
-  #         end
-  #       end
-  #     end
-  #   end
-  #   puts "DONE"
-  # end
-  
+    
 end
