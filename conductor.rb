@@ -57,7 +57,7 @@ class Conductor
   def commit
     elapsed = 0
         
-    until @enumerators.reject! {|_, enum| enum.finished? }.empty?
+    until @enumerators.delete_if {|_, enum| enum.finished? }.empty?
       
       # Find the next note to play
       next_enum = @enumerators.min_by do |_, enum|
