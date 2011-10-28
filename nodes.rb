@@ -3,16 +3,38 @@ include RKelly::Nodes
 class Node
 	attr_accessor :depth
 	
-	def self.duration_impact ; 0 ; end
+	class << self
+	  attr_accessor :instrument, :private_duration
+	end
+	
+  def self.duration_impact
+    self.private_duration ||= 0
+  end
+	  
+  def self.notes=(nts)
+    @notes = nts
+    self.private_duration = Array(nts).inject(0) do |m, (_, d)|
+      m + d
+    end
+  end
+    
+  def self.notes ; @notes ||= [] ; end
+    
+  def self.name
+    super[15..-1]
+  end
+	
 	def self.adds_depth? ; false ; end
 
   def orchestrate_self(delay, conductor, opts)
-    # conductor.enqueue()
+    unless self.class.notes.empty?
+      conductor.enqueue(self.class.name, self.class.instrument, self.class.notes, 4, 4, duration, delay, height)
+    end
   end
 
 	def orchestrate(delay, conductor, opts = {})
-	  orchestrate_self(delay, conductor, opts)
-        
+    orchestrate_self(delay, conductor, opts)
+    
     delay += self.class.duration_impact
     for child in children
       if Node === child
@@ -37,7 +59,6 @@ class Node
 	  end
 	end
 	
-	# see how many children we have
 	def height
 		@height ||= begin
 		  children.map {|x| RKelly::Nodes::Node === x ? x.height : 0 }.max.to_i + 
@@ -51,36 +72,34 @@ class Node
 end
 
 module Useful
-  def duration_impact ; 4 ; end
-	def adds_depth? ; true  ; end
+	def adds_depth?
+	  true
+	end
 end
-
 
 class IfNode
   extend Useful
   
-  def orchestrate_self(delay, conductor, opts)
-    notes = [[0,   0.5],
-             [nil, 0.5],
-             [2, 0.5],
-             [0, 0.25],
-             [0, 0.25],
-             [nil, 1],
-             [5, 1]]
-    conductor.enqueue(:guitar, notes, 4, 4, duration, delay, height)
-  end
+  self.instrument = :guitar
+  self.notes = [[0,   0.5],
+                [nil, 0.5],
+                [2,   0.5],
+                [0,   0.25],
+                [0,   0.25],
+                [nil, 1],
+                [5,   1]]
   
   def children
     Array(@conditions) + Array(@value) + Array(@else)
   end
 end
-class Conditional
+
+class ConditionalNode
   extend Useful
   
-  def orchestrate_self(delay, conductor, opts)
-    conductor.enqueue(:guitar, [[9, 1.5], [9, 0.25] [2, 0.5], [0, 0.25], [nil, 1], [5, 0.5]], 4, 4, duration, delay, height)
-  end
-  
+  self.instrument = :guitar
+  self.notes = [[9, 1.5], [9, 0.25], [2, 0.5], [0, 0.25], [nil, 1], [5, 0.5]]
+
   def children
     Array(@conditions) + Array(@value) + Array(@else)
   end
@@ -88,148 +107,183 @@ end
 
 EmptyStatementNode.extend Useful
 
-def value_only(klazz, &blk)
+def value_only(klazz)
   klazz.extend Useful
-  klazz.send :define_method, :orchestrate_self, &blk
+  
+  yield klazz
 end
 
-def binary(other = :@left, *klazzes, &blk)
+def binary(other = :@left, *klazzes)
   for klazz in klazzes
     klazz.extend Useful
     def klazz.children
       Array(instance_variable_get(other)) + Array(@value)
     end
-    klazz.send :define_method, :orchestrate_self, &blk
+    
+    yield klazz
   end
 end
 
-value_only TrueNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[0, 0.5], [4, 0.5], [7, 0.5], [0, 0.5]], 4, 4, duration, delay, height)
+value_only TrueNode do |ctx|
+  ctx.instrument = :moog
+  ctx.notes =  [[0, 0.5], [4, 0.5], [7, 0.5], [0, 0.5]] 
 end
 
-value_only FalseNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[7, 0.5], [4, 0.5], [2, 0.5], [0, 0.5]], 4, 4, duration, delay, height)
+value_only FalseNode do |ctx|
+  ctx.instrument = :moog
+  ctx.notes =  [[7, 0.5], [4, 0.5], [2, 0.5], [0, 0.5]] 
 end
 
-value_only DeleteNode do |delay, conductor, opts| 
-  conductor.enqueue(:guitar, [[2, 1]], 2, 4, duration, delay, height)
+value_only DeleteNode do |ctx| 
+  ctx.instrument = :guitar
+  ctx.notes =  [[2, 1]] 
 end
 
-value_only ReturnNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[7, 0.5], [5, 0.5], [0, 1]], 4, 4, duration, delay, height)
+value_only ReturnNode do |ctx|
+  ctx.instrument = :sinmix
+  ctx.notes =  [[7, 0.25], [5, 0.25]] 
 end
 
-value_only TypeOfNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[0, 0.5], [4, 0.5], [0, 0.5], [4, 0.5], [2, 0.5], [7, 0.5], [2, 0.5], [7,0.5]], 5, 4, duration, delay, height)
+value_only TypeOfNode do |ctx|
+  ctx.instrument = :sawsaw
+  ctx.notes =  [[0, 0.5], [4, 0.5], [0, 0.5], [4, 0.5], [2, 0.5], [7, 0.5], [2, 0.5], [7,0.5]] 
 end
 
-value_only ThrowNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[7, 0.25], [4, 0.25], [2, 0.25], [4, 0.25]], 6, 4, duration, delay, height)
+value_only ThrowNode do |ctx|
+  ctx.instrument = :sinmix
+  ctx.notes =  [[7, 0.25], [4, 0.25], [2, 0.25], [4, 0.25]] 
 end
 
-value_only UnaryMinusNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[nil, 0.5], [4, 0.5], [nil, 0.25], [5, 0.25], [7, 0.25], [9, 0.25]], 4, 4, duration, delay, height)
+value_only UnaryMinusNode do |ctx|
+  ctx.instrument = :sinmix
+  ctx.notes =  [[nil, 0.5], [4, 0.5], [nil, 0.25], [5, 0.25], [7, 0.25], [9, 0.25]] 
 end
 
-value_only ElementNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[2, 0.25], [nil, 0.25], [4, 0.25], [nil, 0.25], [nil, 0.25], [7, 0.25], [9, 0.5], [12, 1]], 4, 4, duration, delay, height)
+value_only ElementNode do |ctx|
+  ctx.instrument = :sinmix
+  ctx.notes =  [[2, 0.25], [nil, 0.25], [4, 0.25], [nil, 0.25], [nil, 0.25], [7, 0.25], [9, 0.5], [12, 1]] 
 end
 
-value_only NullNode do |delay, conductor, opts|
-  conductor.enqueue(:piano2, [[9, 0.25], [7, 0.25], [2, 0.25], [0, 0.25]], 4, 4, duration, delay, height)
+value_only NullNode do |ctx|
+  ctx.instrument = :piano2
+  ctx.notes =  [[9, 0.25], [7, 0.25], [2, 0.25], [0, 0.25]] 
 end
 
-value_only ThisNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[0, 0.25], [4, 0.25], [7, 0.25], [9, 0.25], [12, 0.25], [7,0.25], [5, 0.25], [4, 0.25]], 4, 4, duration, delay, height)
+value_only ThisNode do |ctx|
+  ctx.instrument = :moog
+  ctx.notes =  
+      [[0,  0.25],
+       [4,  0.25],
+       [7,  0.25],
+       [9,  0.25]] 
 end
 
-value_only ArrayNode do |delay, conductor, opts|
-  conductor.enqueue(:guitar, [[7, 0.5], [5, 0.5], [4, 0.5], [2, 0.5]], 4, 4, duration, delay, height)
+value_only ArrayNode do |ctx|
+  ctx.instrument = :guitar
+  ctx.notes =  [[7, 0.5], [5, 0.5], [4, 0.5], [2, 0.5]] 
 end
 
-value_only ContinueNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[7, 0.5], [nil, 0,5] [7, 1], [nil, 1], [nil, 1]], 4, 4, duration, delay, height)
+value_only ContinueNode do |ctx|
+  ctx.instrument = :moog
+  ctx.notes =  [[7, 0.5], [nil, 0,5], [7, 1], [nil, 1], [nil, 1]] 
 end
 
-value_only BreakNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[0, 0.5], [0, 0.5], [7, 0.5], [7, 0.5]], 4, 4, duration, delay, height)
+value_only BreakNode do |ctx|
+  ctx.instrument = :sinmix
+  ctx.notes =  [[0, 0.5], [0, 0.5], [7, 0.5], [7, 0.5]] 
 end
 
-value_only ParameterNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[12, 0.5], [4, 0.5], [7, 0.5], [12, 0.5]], 4, 4, duration, delay, height)
+value_only ParameterNode do |ctx|
+  ctx.instrument = :moog
+  ctx.notes =  [[12, 0.5], [4, 0.5], [7, 0.5], [12, 0.5]] 
 end
 
-value_only ObjectLiteralNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[0, 0.75], [5, 0.25], [2, 0.75], [7, 0.25], [4, 0.75], [9, 0.25], [5, 0.75], [12, 0.25]], 4, 4, duration, delay, height)
+value_only ObjectLiteralNode do |ctx|
+  ctx.instrument = :sawsaw, 
+  ctx.notes = [[0, 0.75],
+               [5, 0.25],
+               [2, 0.75],
+               [7, 0.25],
+               [4, 0.75],
+               [9, 0.25],
+               [5, 0.75],
+               [12, 0.25]] 
 end
   
-value_only SourceElementsNode do |delay, conductor, opts| 
-  conductor.enqueue(:sinosc, [[0, 1], [7, 1], [12, 1], [4, 1]], 3, 4, duration, delay, height)
+# value_only SourceElementsNode do |ctx| 
+#   ctx.instrument = :sinosc
+#  ctx.notes =  [[0, 1], [7, 1], [12, 1], [4, 1]] 
+# end
+
+value_only VarStatementNode do |ctx|
+  ctx.instrument = :sinmix
+  ctx.notes =  [[12, 0.25], [5, 0.75], [9, 0.25], [4, 0.75], [7, 0.25], [2, 0.75], [7, 0.25], [0, 0.75]] 
 end
 
-value_only VarStatementNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[12, 0.25], [5, 0.75], [9, 0.25], [4, 0.75], [7, 0.25], [2, 0.75], [7, 0.25], [0, 0.75]], 4, 4, duration, delay, height)
+binary CaseClauseNode do |ctx|
+  ctx.instrument = :guitar
+  ctx.notes =  [[9, 0.25], [7, 0.25], [5, 0.5], [12, 2]] 
 end
 
-binary CaseClauseNode do |delay, conductor, opts|
-  conductor.enqueue(:guitar, [[9, 0.25], [7, 0.25], [5, 0.5], [12, 2]], 4, 4, duration, delay, height)
+binary SwitchNode do |ctx|
+  ctx.instrument = :piano2
+  ctx.notes =  [ [5, 0.5], [4, 0.25], [0, 0.25]] 
 end
 
-binary SwitchNode do |delay, conductor, opts|
-  conductor.enqueue(:piano2, [ [5, 0.5], [4, 0.25], [0, 0.25]], 3, 4, duration, delay, height)
+binary DoWhileNode do |ctx|
+  ctx.instrument = :sawsaw
+  ctx.notes =  [[7, 1], [4, 1], [2, 1], [0, 0.5], [7, 0.5]] 
 end
 
-binary DoWhileNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [2, 1], [0, 0.5], [7, 0.5]], 3, 4, duration, delay, height)
+binary InNode do |ctx|
+  ctx.instrument = :sawsaw
+  ctx.notes =  [[5, 1], [4, 1]]   
 end
 
-binary InNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[5, 1], [4, 1]], 6, 4, duration, delay, height)
-  
+binary InstanceOfNode do |ctx|
+  ctx.instrument = :moog
+  ctx.notes =  [[nil, 0.5], [0, 0.5], [nil, 0.5], [7, 0.5]] 
 end
 
-
-binary InstanceOfNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[nil, 0.5], [0, 0.5], [nil, 0.5], [7, 0.5]], 5, 4, duration, delay, height)
+binary WhileNode, WithNode do |ctx|
+  ctx.instrument = :moog
+  ctx.notes =  [[12, 1], [4, 0.5], [2, 0.5],[12, 1]] 
 end
 
-binary WhileNode, WithNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[12, 1], [4, 0.5], [2, 0.5],[12, 1]], 3, 4, duration, delay, height)
-end
-
-
-binary :@name, LabelNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[0, 1], [0, 1], [0, 1], [0, 1]], 4, 4, duration, delay, height)
-end
-  
-binary :@name, PropertyNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[7, 1], [7, 1], [7, 1], [2, 0.25], [4, 0.25], [5,0.25]], 4, 4, duration, delay, height)
-end
-
-binary :@name, VarDeclNode do |delay, conductor, opts|
-  conductor.enqueue(:sinosc, [[0, 0.5], [0, 0.5], [5, 0.25], [7, 0.25]], 5, 4, duration, delay, height)
-end
-
-binary :@name, PostfixNode do |delay, conductor, opts|
-  conductor.enqueue(:sinosc, [[0, 1], [4, 1]], 5, 4, duration, delay, height)
+binary :@name, LabelNode do |ctx|
+  ctx.instrument = :sawsaw
+  ctx.notes =  [[0, 1], [0, 1], [0, 1], [0, 1]] 
 end
   
-binary :@name, PrefixNode do |delay, conductor, opts|
-  conductor.enqueue(:sinosc, [[5, 1], [7, 1]], 5, 4, duration, delay, height)
+binary :@name, PropertyNode do |ctx|
+  ctx.instrument = :sawsaw
+  ctx.notes =  [[0, 0.25]] 
 end
 
+binary :@name, VarDeclNode do |ctx|
+  ctx.instrument = :sinosc
+  ctx.notes =  [[0, 0.5], [0, 0.5], [5, 0.25], [7, 0.25]] 
+end
+
+binary :@name, PostfixNode do |ctx|
+  ctx.instrument = :sinosc
+  ctx.notes =  [[0, 1], [4, 1]] 
+end
+  
+binary :@name, PrefixNode do |ctx|
+  ctx.instrument = :sinosc
+  ctx.notes =  [[5, 1], [7, 1]] 
+end
 
 class FunctionCallNode
   extend Useful
   
   def children
-    Array(@value) + Array(@arguments)
+    Array(@arguments) + Array(@value)
   end
   
-  def orchestrate_self(delay, conductor, opts)
-    conductor.enqueue(:sinmix, [[0, 1], [4, 1], [7, 1], [12, 1]], 4, 4, duration, delay, height)
-    
-  end
+  self.instrument = :sinmix
+  self.notes = [[0, 1], [4, 1], [7, 1], [12, 1]]
 end
 
 class FunctionDeclNode
@@ -239,9 +293,14 @@ class FunctionDeclNode
     Array(@value) + Array(@arguments) + Array(@function_body)
   end
   
-  def orchestrate_self(delay, conductor, opts)
-    conductor.enqueue(:sawsaw, [[7, 0.5], [4, 0.5], [2, 0.5], [7, 0.5]], 4, 4, duration, delay, height)
-    
+  self.instrument = :sawsaw
+  self.notes = [[7, 0.5], [4, 0.5], [2, 0.5], [7, 0.5]]
+end
+
+class FunctionExprNode
+  def children
+    Array(@value) + Array(@arguments) + Array(@function_body)
   end
 end
+
 

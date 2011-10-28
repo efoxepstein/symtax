@@ -1,5 +1,4 @@
-
-require 'benchmark'
+require 'set'
 
 class Enumerator
   def finished?
@@ -8,9 +7,6 @@ class Enumerator
     true
   end
 end
-
-
-require 'awesome_print'
 
 class Conductor
   
@@ -28,7 +24,7 @@ class Conductor
     @tempo       = tempo.to_f
   end
   
-  def enqueue(name, notes, octave, root, total_duration, delay, height)    
+  def enqueue(node, name, notes, octave, root, total_duration, delay, height)    
 
     enumerator = Enumerator.new do |yielder|
       sleep_time = 0
@@ -47,7 +43,7 @@ class Conductor
       end
     end
     
-    @enumerators << [delay..delay+total_duration, enumerator]
+    @enumerators << [node, enumerator]
     
   end
   
@@ -56,14 +52,14 @@ class Conductor
     end_time >= arr[0]+arr[2][:dur]
   end
   
-  def commit    
+  def commit  
     elapsed = 0
 
-    until @enumerators.delete_if {|_, enum| enum.finished? }.empty?      
+    until @enumerators.delete_if {|enum| enum[1].finished? }.empty?
       
       # Find the next note to play
-      next_enum = @enumerators.min_by do |_, enum|
-        enum.peek[0]
+      next_enum = @enumerators.min_by do |enum|
+        enum[1].peek[0]
       end
       
       
@@ -77,20 +73,24 @@ class Conductor
       sleep next_enum[1].peek[0] - elapsed
       elapsed = next_enum[1].peek[0]
       
-      puts "Time: #{elapsed}"
-
       # Get all notes that play at this time
-      notes = @enumerators.inject([]) do |ns, (_, e)|
+      names = Set.new
+      
+      notes = @enumerators.inject([]) do |ns, (name, e)|
+        if !e.finished? and e.peek[0] == elapsed
+          names << name
+        end
+        
         while !e.finished? and e.peek[0] == elapsed
           ns << e.next
         end
         ns
       end
             
-       
+      puts "#{elapsed}: " + names.to_a.map{|x|x[0..-5]}.join(", ")
+      
       # Play em    
       for (start, name, opts) in notes
-        puts "Synthing #{name}, #{opts.inspect}"
         Synth.new(name, opts)
       end
     end
