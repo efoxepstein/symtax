@@ -5,6 +5,7 @@ require 'open-uri'
 require 'fssm'
 require 'rkelly'
 require 'scruby'
+require 'fiber'
 
 require './hax'
 require './conductor'

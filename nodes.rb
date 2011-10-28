@@ -11,7 +11,7 @@ class Node
   end
 
 	def orchestrate(delay, conductor, opts = {})
-	  puts "Orchestrating #{self.class.name}, delay #{delay}"
+	  puts "Orchestrating #{delay}, #{self.class.name}, #{opts.inspect}"
 	  orchestrate_self(delay, conductor, opts)
         
     delay += self.class.duration_impact
