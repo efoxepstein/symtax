@@ -3,6 +3,8 @@ include RKelly::Nodes
 class Node
 	attr_accessor :depth
 	
+	undef :to_a
+	
 	class << self
 	  attr_accessor :instrument, :private_duration
 	end
@@ -28,7 +30,9 @@ class Node
 
   def orchestrate_self(delay, conductor, opts)
     unless self.class.notes.empty?
-      conductor.enqueue(self.class.name, self.class.instrument, self.class.notes, 4, 4, duration, delay, height)
+      conductor.enqueue(self.class.name,
+        self.class.instrument,
+        self.class.notes, 4, 4, duration, delay, height)
     end
   end
 
@@ -67,7 +71,7 @@ class Node
 	end
 		
 	def children
-		(instance_variables - [:@comments, :@line, :@filename]).map {|x| Array(instance_variable_get(x)) }.flatten
+    Array(@value).flatten
 	end
 end
 
@@ -126,12 +130,12 @@ end
 
 value_only TrueNode do |ctx|
   ctx.instrument = :moog
-  ctx.notes =  [[0, 0.5], [4, 0.5], [7, 0.5], [0, 0.5]] 
+  ctx.notes =  [[0, 0.125], [4, 0.125]] 
 end
 
 value_only FalseNode do |ctx|
   ctx.instrument = :moog
-  ctx.notes =  [[7, 0.5], [4, 0.5], [2, 0.5], [0, 0.5]] 
+  ctx.notes =  [[7, 0.125], [4, 0.125], [2, 0.125], [0, 0.125]] 
 end
 
 value_only DeleteNode do |ctx| 
@@ -141,7 +145,7 @@ end
 
 value_only ReturnNode do |ctx|
   ctx.instrument = :sinmix
-  ctx.notes =  [[7, 0.25], [5, 0.25]] 
+  ctx.notes =  [[7, 0.25], [5, 0.5]] 
 end
 
 value_only TypeOfNode do |ctx|
@@ -161,7 +165,7 @@ end
 
 value_only ElementNode do |ctx|
   ctx.instrument = :sinmix
-  ctx.notes =  [[2, 0.25], [nil, 0.25], [4, 0.25], [nil, 0.25], [nil, 0.25], [7, 0.25], [9, 0.5], [12, 1]] 
+  ctx.notes =  [[2, 0.5], [4, 0.25], [5, 0.25]] 
 end
 
 value_only NullNode do |ctx|
@@ -199,15 +203,9 @@ value_only ParameterNode do |ctx|
 end
 
 value_only ObjectLiteralNode do |ctx|
-  ctx.instrument = :sawsaw, 
+  ctx.instrument = :moog
   ctx.notes = [[0, 0.75],
-               [5, 0.25],
-               [2, 0.75],
-               [7, 0.25],
-               [4, 0.75],
-               [9, 0.25],
-               [5, 0.75],
-               [12, 0.25]] 
+               [5, 0.25]] 
 end
   
 # value_only SourceElementsNode do |ctx| 
@@ -217,7 +215,7 @@ end
 
 value_only VarStatementNode do |ctx|
   ctx.instrument = :sinmix
-  ctx.notes =  [[12, 0.25], [5, 0.75], [9, 0.25], [4, 0.75], [7, 0.25], [2, 0.75], [7, 0.25], [0, 0.75]] 
+  ctx.notes =  [[12, 0.25], [5, 0.5], [9, 0.125], [4, 0.5]] 
 end
 
 binary CaseClauseNode do |ctx|
@@ -256,7 +254,7 @@ binary :@name, LabelNode do |ctx|
 end
   
 binary :@name, PropertyNode do |ctx|
-  ctx.instrument = :sawsaw
+  ctx.instrument = :moog
   ctx.notes =  [[0, 0.25]] 
 end
 

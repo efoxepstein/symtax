@@ -72,7 +72,7 @@ SynthDef(\piano2, { |out=0, freq=440, gate=1, dur=1, amp=1|
 			
 		env = EnvGen.kr(Env.perc(0.01, 0.75, 1.0), gate, timeScale: dur, doneAction: 2);
 				
-		Out.ar(out, output * env * amp);
+		Out.ar(out, output * env * amp * 0.0625);
 	}).send(s);
 )
 

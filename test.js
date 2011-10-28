@@ -16,3 +16,27 @@
   }
   
 })({thank: "you"});
+
+Supercollider.is(function(a){
+  return [
+    "a programming language", "like smalltalk",
+    a.music.synthesis.platform,
+    a("n") + "IDE"
+  ]
+});
+
+this.beat = [true,true,false,false,
+             true,true,false,false,
+             true,false,true,true,
+             true,false,true,true,
+             true,false,true,false,
+             true,false,true,false,
+             true,true,true,true,
+             false,false,false,false];
+
+while(this("ambient style").might(!be) == "your favorite"){
+  "it's relaxing" && "Symtax could produce other genres";
+}
+
+
+setTimeout(function(){  alert("1 minute is up!")  }, 60)

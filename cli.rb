@@ -31,7 +31,7 @@ end
 
 def play(js)
   ast = RKelly::Parser.new.parse js
-  
+
   conductor = Conductor.new(ast.height)
   ast.orchestrate(0, conductor, {})
   

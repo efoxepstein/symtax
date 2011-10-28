@@ -25,11 +25,16 @@ class Conductor
   end
   
   def enqueue(node, name, notes, octave, root, total_duration, delay, height)    
-
     enumerator = Enumerator.new do |yielder|
-      sleep_time = 0
-      elapsed = 0
+      elapsed  = 0
+      
+      cycle_duration = notes.inject(0) {|m, (_, d)| m+d}
+
+      stretch = total_duration / cycle_duration
+            
       notes.cycle do |(offset, duration)|
+        duration *= stretch
+        
         break if elapsed + duration > total_duration
       
         unless offset == nil
@@ -46,11 +51,7 @@ class Conductor
     @enumerators << [node, enumerator]
     
   end
-  
-  
-  def self.fits?(end_time, arr)
-    end_time >= arr[0]+arr[2][:dur]
-  end
+
   
   def commit  
     elapsed = 0
@@ -94,6 +95,8 @@ class Conductor
         Synth.new(name, opts)
       end
     end
+    
+    Synth.new(:moog, {freq: 220, dur: 5, amp: 1})
   end
     
 end
