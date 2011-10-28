@@ -1,4 +1,4 @@
-﻿(
+(
 SynthDef(\sinosc, { |out=0, freq=440, gate=1, dur=1, amp=1|
 	var oscs = SinOsc.ar(freq, gate, amp);
 	
@@ -9,7 +9,7 @@ SynthDef(\sinosc, { |out=0, freq=440, gate=1, dur=1, amp=1|
 
 (
 SynthDef(\sinmix, {|out=0, freq=440, gate=1, dur=1, amp=1|
-	var son = SinOsc.ar(SinOsc.ar(freq/2, gate), gate, amp)) * EnvGen.kr(Env.linen(0.01, 0.7, 0.025), timeScale: dur, doneAction: 2);
+	var son = SinOsc.ar(SinOsc.ar(freq/2, gate), gate, amp) * EnvGen.kr(Env.linen(0.01, 0.7, 0.025), timeScale: dur, doneAction: 2);
 	Out.ar(out, Pan2.ar(son *1));
 }).store;
 );
