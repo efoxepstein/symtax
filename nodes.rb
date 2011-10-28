@@ -1,4 +1,4 @@
-include RKelly::Nodes 
+include RKelly::Nodes
 
 class Node
 	attr_accessor :depth
@@ -11,7 +11,6 @@ class Node
   end
 
 	def orchestrate(delay, conductor, opts = {})
-	  puts "Orchestrating #{delay}, #{self.class.name}, #{opts.inspect}"
 	  orchestrate_self(delay, conductor, opts)
         
     delay += self.class.duration_impact

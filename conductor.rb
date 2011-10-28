@@ -1,3 +1,6 @@
+
+require 'benchmark'
+
 class Enumerator
   def finished?
     !peek
@@ -26,8 +29,7 @@ class Conductor
   end
   
   def enqueue(name, notes, octave, root, total_duration, delay, height)    
-    puts "enqueuing #{name}, #{delay}, #{height}, #{@max_height}"
-    
+
     enumerator = Enumerator.new do |yielder|
       sleep_time = 0
       elapsed = 0
@@ -54,15 +56,16 @@ class Conductor
     end_time >= arr[0]+arr[2][:dur]
   end
   
-  def commit
+  def commit    
     elapsed = 0
-        
-    until @enumerators.delete_if {|_, enum| enum.finished? }.empty?
+
+    until @enumerators.delete_if {|_, enum| enum.finished? }.empty?      
       
       # Find the next note to play
       next_enum = @enumerators.min_by do |_, enum|
         enum.peek[0]
       end
+      
       
       # This shouldn't happen
       if next_enum.nil?
