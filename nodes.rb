@@ -105,19 +105,19 @@ def binary(other = :@left, *klazzes, &blk)
 end
 
 value_only TrueNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[0, 1], [4, 1], [7, 1], [0, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:moog, [[0, 0.5], [4, 0.5], [7, 0.5], [0, 0.5]], 4, 4, duration, delay, height)
 end
 
 value_only FalseNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[7, 1], [4, 1], [2, 1], [7, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:moog, [[7, 0.5], [4, 0.5], [2, 0.5], [0, 0.5]], 4, 4, duration, delay, height)
 end
 
 value_only DeleteNode do |delay, conductor, opts| 
-  conductor.enqueue(:guitar, [[2, 4]], 2, 4, duration, delay, height)
+  conductor.enqueue(:guitar, [[2, 1]], 2, 4, duration, delay, height)
 end
 
 value_only ReturnNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[7, 1], [5, 1], [4, 1], [2, 0.5], [0, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:sinmix, [[7, 0.5], [5, 0.5], [0, 1]], 4, 4, duration, delay, height)
 end
 
 value_only TypeOfNode do |delay, conductor, opts|
@@ -125,11 +125,11 @@ value_only TypeOfNode do |delay, conductor, opts|
 end
 
 value_only ThrowNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[7, 1], [4, 1], [2, 1], [4, 1]], 6, 4, duration, delay, height)
+  conductor.enqueue(:sinmix, [[7, 0.25], [4, 0.25], [2, 0.25], [4, 0.25]], 6, 4, duration, delay, height)
 end
 
 value_only UnaryMinusNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[nil, 0.5], [4, 0.5], [nil, 0.25], [5, 0.25], [7, 0.25], [9, 0.25], [nil, 1], [12, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:sinmix, [[nil, 0.5], [4, 0.5], [nil, 0.25], [5, 0.25], [7, 0.25], [9, 0.25]], 4, 4, duration, delay, height)
 end
 
 value_only ElementNode do |delay, conductor, opts|
@@ -137,15 +137,15 @@ value_only ElementNode do |delay, conductor, opts|
 end
 
 value_only NullNode do |delay, conductor, opts|
-  conductor.enqueue(:piano2, [[9, 1], [7, 1], [2, 1], [0, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:piano2, [[9, 0.25], [7, 0.25], [2, 0.25], [0, 0.25]], 4, 4, duration, delay, height)
 end
 
 value_only ThisNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[0, 0.25], [4, 0.25], [7, 0.25], [9, 0.25], [12, 0.25], [7,0.25], [5, 0.25], [4, 0.25], [4, 1], [7, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:moog, [[0, 0.25], [4, 0.25], [7, 0.25], [9, 0.25], [12, 0.25], [7,0.25], [5, 0.25], [4, 0.25]], 4, 4, duration, delay, height)
 end
 
 value_only ArrayNode do |delay, conductor, opts|
-  conductor.enqueue(:guitar, [[7, 1], [5, 1], [4, 1], [2, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:guitar, [[7, 0.5], [5, 0.5], [4, 0.5], [2, 0.5]], 4, 4, duration, delay, height)
 end
 
 value_only ContinueNode do |delay, conductor, opts|
@@ -153,11 +153,11 @@ value_only ContinueNode do |delay, conductor, opts|
 end
 
 value_only BreakNode do |delay, conductor, opts|
-  conductor.enqueue(:sinmix, [[0, 0.5], [0, 0.5], [0, 0.5], [0, 0.5], [7, 0.5], [7, 0.5], [7, 0.5], [7, 0.5]], 4, 4, duration, delay, height)
+  conductor.enqueue(:sinmix, [[0, 0.5], [0, 0.5], [7, 0.5], [7, 0.5]], 4, 4, duration, delay, height)
 end
 
 value_only ParameterNode do |delay, conductor, opts|
-  conductor.enqueue(:piano2, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, duration, delay, height)
+  conductor.enqueue(:moog, [[12, 0.5], [4, 0.5], [7, 0.5], [12, 0.5]], 4, 4, duration, delay, height)
 end
 
 value_only ObjectLiteralNode do |delay, conductor, opts|
@@ -165,7 +165,7 @@ value_only ObjectLiteralNode do |delay, conductor, opts|
 end
   
 value_only SourceElementsNode do |delay, conductor, opts| 
-  conductor.enqueue(:moog, [[0, 1], [7, 1], [12, 1], [4, 1]], 2, 4, duration, delay, height)
+  conductor.enqueue(:sinosc, [[0, 1], [7, 1], [12, 1], [4, 1]], 3, 4, duration, delay, height)
 end
 
 value_only VarStatementNode do |delay, conductor, opts|
@@ -177,7 +177,7 @@ binary CaseClauseNode do |delay, conductor, opts|
 end
 
 binary SwitchNode do |delay, conductor, opts|
-  conductor.enqueue(:piano2, [[nil, 2], [5, 0.5], [4, 0.25], [0, 0.25]], 3, 4, duration, delay, height)
+  conductor.enqueue(:piano2, [ [5, 0.5], [4, 0.25], [0, 0.25]], 3, 4, duration, delay, height)
 end
 
 binary DoWhileNode do |delay, conductor, opts|
@@ -185,17 +185,17 @@ binary DoWhileNode do |delay, conductor, opts|
 end
 
 binary InNode do |delay, conductor, opts|
-  conductor.enqueue(:sawsaw, [[5, 1], [4, 1], [2, 1], [7, 1]], 6, 4, duration, delay, height)
+  conductor.enqueue(:sawsaw, [[5, 1], [4, 1]], 6, 4, duration, delay, height)
   
 end
 
 
 binary InstanceOfNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[nil, 0.5], [0, 0.5], [nil, 0.5], [nil, 0.5], [7, 0.5], [5, 1]], 5, 4, duration, delay, height)
+  conductor.enqueue(:moog, [[nil, 0.5], [0, 0.5], [nil, 0.5], [7, 0.5]], 5, 4, duration, delay, height)
 end
 
 binary WhileNode, WithNode do |delay, conductor, opts|
-  conductor.enqueue(:moog, [[12, 1], [4, 0.5], [2, 0.5], [7, 1], [12, 1]], 3, 4, duration, delay, height)
+  conductor.enqueue(:moog, [[12, 1], [4, 0.5], [2, 0.5],[12, 1]], 3, 4, duration, delay, height)
 end
 
 
@@ -208,15 +208,15 @@ binary :@name, PropertyNode do |delay, conductor, opts|
 end
 
 binary :@name, VarDeclNode do |delay, conductor, opts|
-  conductor.enqueue(:sinosc, [[0, 0.5], [0, 0.5], [5, 0.25], [7, 0.25], [nil, 1], [12, 1]], 5, 4, duration, delay, height)
+  conductor.enqueue(:sinosc, [[0, 0.5], [0, 0.5], [5, 0.25], [7, 0.25]], 5, 4, duration, delay, height)
 end
 
 binary :@name, PostfixNode do |delay, conductor, opts|
-  conductor.enqueue(:sinosc, [[0, 1], [4, 1], [7, 1], [5, 1]], 5, 4, duration, delay, height)
+  conductor.enqueue(:sinosc, [[0, 1], [4, 1]], 5, 4, duration, delay, height)
 end
   
 binary :@name, PrefixNode do |delay, conductor, opts|
-  conductor.enqueue(:sinosc, [[5, 1], [7, 1], [4, 1], [0, 1]], 5, 4, duration, delay, height)
+  conductor.enqueue(:sinosc, [[5, 1], [7, 1]], 5, 4, duration, delay, height)
 end
 
 
@@ -228,7 +228,7 @@ class FunctionCallNode
   end
   
   def orchestrate_self(delay, conductor, opts)
-    conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, duration, delay, height)
+    conductor.enqueue(:sinmix, [[0, 1], [4, 1], [7, 1], [12, 1]], 4, 4, duration, delay, height)
     
   end
 end
@@ -241,7 +241,7 @@ class FunctionDeclNode
   end
   
   def orchestrate_self(delay, conductor, opts)
-    conductor.enqueue(:sawsaw, [[7, 1], [4, 1], [3, 1], [7, 1]], 4, 4, duration, delay, height)
+    conductor.enqueue(:sawsaw, [[7, 0.5], [4, 0.5], [2, 0.5], [7, 0.5]], 4, 4, duration, delay, height)
     
   end
 end
