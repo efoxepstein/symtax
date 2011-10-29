@@ -260,7 +260,7 @@ end
 
 binary :@name, VarDeclNode do |ctx|
   ctx.instrument = :sinosc
-  ctx.notes =  [[0, 0.5], [0, 0.5], [5, 0.25], [7, 0.25]] 
+  ctx.notes =  [[0, 0.5], [0, 0.5], [4, 0.25], [9, 0.25]] 
 end
 
 binary :@name, PostfixNode do |ctx|
