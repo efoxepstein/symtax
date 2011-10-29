@@ -9,7 +9,7 @@ SynthDef(\sinosc, { |out=0, freq=440, gate=1, dur=1, amp=1|
 
 (
 SynthDef(\sinmix, {|out=0, freq=440, gate=1, dur=1, amp=1|
-	var son = SinOsc.ar(freq*SinOsc.ar(freq/2), 0, amp) * EnvGen.kr(Env.linen(0.1, 0.7, 0.25), timeScale: dur, doneAction: 2);
+	var son = SinOsc.ar(freq+40*SinOsc.ar(freq/2), 0, amp) * EnvGen.kr(Env.linen(0.1, 0.7, 0.25), timeScale: dur, doneAction: 2);
 	Out.ar(out, Pan2.ar(son *1));
 }).store;
 );
@@ -72,7 +72,7 @@ SynthDef(\piano2, { |out=0, freq=440, gate=1, dur=1, amp=1|
 			
 		env = EnvGen.kr(Env.perc(0.01, 0.75, 1.0), gate, timeScale: dur, doneAction: 2);
 				
-		Out.ar(out, output * env * amp * 0.03);
+		Out.ar(out, output * env * amp * 0.04);
 	}).send(s);
 )
 
